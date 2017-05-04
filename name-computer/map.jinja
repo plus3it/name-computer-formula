@@ -1,4 +1,7 @@
-{%- set name = salt['grains.get']('name-computer:computername', '') %}
+{%- set name = salt.grains.get('name-computer:computername') | default(
+    salt.pillar.get('name-computer:lookup:computername') | default('', true),
+    true
+) %}
 
 {%- load_yaml as salt_states %}
 RedHat:
