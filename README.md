@@ -13,7 +13,8 @@ Set the computer name on Windows, or the hostname on Linux.
 
 ## Configuration
 
-The only configuration option is a salt grain, `name-computer:computername`.
-The formula will read the grain, and will set the computer name to the value
-of the grain. If the grain is unset or set to a value that evaluates as
-`False`, then the formula will do nothing.
+The only configuration option is the computername, which is read from a salt
+grain, `name-computer:computername`, or a pillar key,
+`name-computer:lookup:computername`. The formula will read the value, and will
+set the computer name. If both keys are unset or set to a value that evaluates
+as `False`, then the formula will do nothing.
