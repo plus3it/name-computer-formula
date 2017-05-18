@@ -18,7 +18,10 @@ RedHat:
   state_opts:
       - hostname: {{ name }}
       - apply_hostname: True
-      - retain_settings: True
+# TODO: `retain_settings` doesn't yet understand all forms of sysconfig/network
+# syntax, and will traceback on things it considers failures. Revisit at some
+# point.
+#      - retain_settings: True
 Windows:
   state_name: 'system.computer_name'
   state_opts:
