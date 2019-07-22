@@ -29,7 +29,7 @@ RedHat:
 
   Update /etc/hosts:
     host.present:
-      - ip: {{ salt['network.interface'](salt['network.default_route']('inet')[0]['interface'])[0]['address'] }}
+      - ip: {{ salt.network.interface(salt.network.default_route('inet')[0]['interface'])[0]['address'] }}
       - names:
       {%- if dns_domain %}
         - {{ name|lower }}.{{ dns_domain|lower }}
