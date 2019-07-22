@@ -1,0 +1,10 @@
+join-domain:
+
+  lookup:
+    ##################################
+    # Linux-specific pillar settings
+    ##################################
+
+    # Required Settings
+    dns_domain: <DNS Domain of Named-Instance>
+
