@@ -12,6 +12,11 @@
     salt.pillar.get('name-computer:lookup:computername') | default('', true)
 ) %}
 
+{%- set dns_domain = salt.pillar.get('join-domain:lookup:dns_name') | default('', true) %}
+{%- set base_if = salt['network.default_route']('inet')[0]['interface'] %}
+{%- set base_ip = salt['network.interface'](base_if)[0]['address'] %}
+
+
 {%- load_yaml as salt_states %}
 RedHat:
   Set Computer Name:
@@ -23,6 +28,13 @@ RedHat:
       - hostname: {{ name }}
       - apply_hostname: True
       - retain_settings: True
+
+  Update /etc/hosts:
+    host.present:
+      - ip: {{ base_ip }}
+      - names:
+        - {{ name }}.{{ dns_domain }}
+        - {{ name }}
 Windows:
   Set Computer Name:
     system.computer_name:
