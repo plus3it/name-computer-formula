@@ -13,7 +13,6 @@
 ) %}
 
 {%- set dns_domain = salt.pillar.get('join-domain:lookup:dns_name') | default('', true) %}
-{%- set base_ip = salt['network.interface'](salt['network.default_route']('inet')[0]['interface'])[0]['address'] %}
 
 
 {%- load_yaml as salt_states %}
@@ -30,7 +29,7 @@ RedHat:
 
   Update /etc/hosts:
     host.present:
-      - ip: {{ base_ip }}
+      - ip: {{ salt['network.interface'](salt['network.default_route']('inet')[0]['interface'])[0]['address'] }}
       - names:
         - {{ name|lower }}.{{ dns_domain|lower }}
         - {{ name|lower }}
