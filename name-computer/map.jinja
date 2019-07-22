@@ -12,7 +12,7 @@
     salt.pillar.get('name-computer:lookup:computername') | default('', true)
 ) %}
 
-{%- set dns_domain = salt.pillar.get('join-domain:lookup:dns_name') | default('', true) %}
+{%- set dns_domain = salt.pillar.get('name-computer:lookup:dns_domain') | default('', true) %}
 
 
 {%- load_yaml as salt_states %}
@@ -31,7 +31,9 @@ RedHat:
     host.present:
       - ip: {{ salt['network.interface'](salt['network.default_route']('inet')[0]['interface'])[0]['address'] }}
       - names:
+      {%- if dns_domain %}
         - {{ name|lower }}.{{ dns_domain|lower }}
+      {%- endif %}
         - {{ name|lower }}
 Windows:
   Set Computer Name:
