@@ -1,10 +1,10 @@
-join-domain:
+name-computer:
 
   lookup:
     ##################################
     # Linux-specific pillar settings
     ##################################
 
-    # Required Settings
+    # Value used for locally-mapping FQDN to IP
     dns_domain: <DNS Domain of Named-Instance>
 
