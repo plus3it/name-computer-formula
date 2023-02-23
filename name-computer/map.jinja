@@ -30,7 +30,11 @@ RedHat:
     # `/etc/sysconfig/network`. Using `enabled: True` is a workaround for the
     # bad code-path. Revisit at some point.
       - enabled: True
+      {%- if dns_domain %}
+      - hostname: {{ name }}.{{ dns_domain|lower }}
+      {%- else %}
       - hostname: {{ name }}
+      {%- endif %}
       - apply_hostname: True
       - retain_settings: True
 
