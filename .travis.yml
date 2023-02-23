@@ -7,8 +7,6 @@ env:
     - SALT_STATE=name-computer
     - SALT_GRAIN_KEY='name-computer:computername'
   matrix:
-    - OS_VERSION=6 SALT_GRAIN_VALUE=False
-    - OS_VERSION=6 SALT_GRAIN_VALUE=itworx
     - OS_VERSION=7 SALT_GRAIN_VALUE=False
     - OS_VERSION=7 SALT_GRAIN_VALUE=itworx
 
