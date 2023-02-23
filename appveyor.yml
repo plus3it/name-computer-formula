@@ -4,7 +4,7 @@ environment:
   global:
     SALT_FILEROOT: '%APPVEYOR_BUILD_FOLDER%'
     SALT_STATE: name-computer
-    SALT_URL: 'https://repo.saltstack.com/windows/Salt-Minion-2018.3.4-Py2-AMD64-Setup.exe'
+    SALT_URL: https://repo.saltproject.io/windows/Salt-Minion-3004.2-1-Py3-AMD64-Setup.exe
     SALT_GRAIN_KEY: 'name-computer:computername'
   matrix:
     - SALT_GRAIN_VALUE: False
@@ -20,7 +20,7 @@ install:
   - ps: |
       $null = `
         Start-Process -FilePath "${env:temp}\salt-minion.exe" `
-        -ArgumentList "/S" -NoNewWindow -PassThru -Wait
+        -ArgumentList  @("/S", "/install-dir=c:\salt") -NoNewWindow -PassThru -Wait
   - ps: C:\salt\salt-call.bat --versions-report
   - ps: |
       C:\salt\salt-call.bat --local --retcode-passthrough `
