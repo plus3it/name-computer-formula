@@ -26,10 +26,6 @@
 RedHat:
   Set Computer Name:
     network.system:
-    # TODO: `network.system` doesn't yet understand quoted values in
-    # `/etc/sysconfig/network`. Using `enabled: True` is a workaround for the
-    # bad code-path. Revisit at some point.
-      - enabled: True
       {%- if dns_domain %}
       - hostname: {{ name }}.{{ dns_domain|lower }}
       {%- else %}
