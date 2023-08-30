@@ -6,8 +6,13 @@
     {%- endif -%}
 {%- endmacro %}
 
+{%- set pattern = salt.pillar.get('name-computer:lookup:pattern') |
+    default(salt.grains.get('name-computer:pattern'), true) |
+    default('.*', true)
+%}
+
 {%- set name = get_name(
-    salt.pillar.get('name-computer:lookup:pattern') | default('.*', true),
+    pattern,
     salt.grains.get('name-computer:computername') | default('', true),
     salt.pillar.get('name-computer:lookup:computername') | default('', true)
 ) %}
