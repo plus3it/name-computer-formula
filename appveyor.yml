@@ -3,6 +3,7 @@ build: off
 environment:
   global:
     SALT_FILEROOT: '%APPVEYOR_BUILD_FOLDER%'
+    SALT_PILLARROOT: '%APPVEYOR_BUILD_FOLDER%\tests\pillar\test-main'
     SALT_STATE: name-computer
     SALT_URL: https://repo.saltproject.io/windows/Salt-Minion-3004.2-1-Py3-AMD64-Setup.exe
     SALT_GRAIN_KEY: 'name-computer:computername'
@@ -31,12 +32,14 @@ test_script:
       C:\salt\salt-call.bat --local --retcode-passthrough `
         --log-file-level debug `
         --file-root=${env:SALT_FILEROOT} `
+        --pillar-root=${env:SALT_PILLARROOT} `
         state.show_sls `
         "${env:SALT_STATE}"
   - ps: |
       C:\salt\salt-call.bat --local --retcode-passthrough `
         --log-file-level debug `
         --file-root="${env:SALT_FILEROOT}" `
+        --pillar-root=${env:SALT_PILLARROOT} `
         state.sls `
         "${env:SALT_STATE}" `
         mock=True

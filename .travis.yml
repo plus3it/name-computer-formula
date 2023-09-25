@@ -5,6 +5,7 @@ env:
     - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
     - SEGFAULT_SIGNALS=all
     - SALT_STATE=name-computer
+    - SALT_PILLARROOT=$TRAVIS_BUILD_DIR/tests/pillar/test-main
     - SALT_GRAIN_KEY='name-computer:computername'
 
 matrix:
@@ -51,12 +52,14 @@ script:
     sudo docker exec centos-${OS_VERSION} salt-call --local \
       --retcode-passthrough --log-file-level debug \
       --file-root=$TRAVIS_BUILD_DIR \
+      --pillar-root=$SALT_PILLARROOT \
       state.show_sls \
       $SALT_STATE
   - |
     sudo docker exec centos-${OS_VERSION} salt-call --local \
       --retcode-passthrough --log-file-level debug \
       --file-root=$TRAVIS_BUILD_DIR \
+      --pillar-root=$SALT_PILLARROOT \
       state.sls \
       $SALT_STATE \
       mock=True
