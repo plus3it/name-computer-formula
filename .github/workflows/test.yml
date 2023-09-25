@@ -33,7 +33,7 @@ jobs:
         salt_state:
           - name-computer
         salt_pillar_root:
-          - ./tests/pillar/test-nessus-agent
+          - ./tests/pillar/test-empty
     with:
       salt-os-version: ${{ matrix.os_version }}
       salt-state: ${{ matrix.salt_state }}
