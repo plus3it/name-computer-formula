@@ -47,6 +47,37 @@ RedHat:
       {%- endif %}
         - {{ name|lower }}
 
+  {%- if dns_domain and nameserver %}
+  Install dnspython:
+    pip.installed:
+      - name: dnspython
+      - reload_modules: True
+
+  Create DNS forward record:
+    ddns.present:
+      - data: {{ primary_ip }}
+      - name: {{ name }}.{{ dns_domain }}.
+      - nameserver: {{ nameserver }}
+      - rdtype: A
+      - replace: True
+      - require:
+        - pip: Install dnspython
+      - ttl: 7200
+      - zone: {{ dns_domain }}
+
+  Create DNS reverse record:
+    ddns.present:
+      - data: {{ name }}.{{ dns_domain }}.
+      - name: {{ reverse_ip_address }}.in-addr.arpa.
+      - nameserver: {{ nameserver }}
+      - rdtype: PTR
+      - replace: True
+      - require:
+        - pip: Install dnspython
+      - ttl: 7200
+      - zone: {{ reverse_ip_zone }}.in-addr.arpa.
+  {%- endif %}
+
 Windows:
   Set Computer Name:
     system.computer_name:
@@ -57,12 +88,3 @@ Windows:
     salt_states,
     grain='os_family'
 ) if name else {} %}
-
-{%- set ddns = {
-    'host_zone': dns_domain,
-    'host_name': name,
-    'ip_address': primary_ip,
-    'nameserver': nameserver,
-    'reverse_ip_address': reverse_ip_address,
-    'reverse_ip_zone': reverse_ip_zone
-} if dns_domain and nameserver else {} %}
