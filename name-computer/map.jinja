@@ -19,8 +19,8 @@
 
 {%- set dns_domain = salt.pillar.get('name-computer:lookup:dns_domain') | default('', true) %}
 {%- set nameserver = salt.pillar.get('name-computer:lookup:nameserver') | default('', true) %}
-{%- set skip_forward_nsupdate = salt.pillar.get('name-computer:lookup:skip_forward_nsupdate') | default('', true) %}
-{%- set skip_reverse_nsupdate = salt.pillar.get('name-computer:lookup:skip_reverse_nsupdate') | default('', true) %}
+{%- set skip_forward_nsupdate = salt.pillar.get('name-computer:lookup:skip_forward_nsupdate') | default(false, true) %}
+{%- set skip_reverse_nsupdate = salt.pillar.get('name-computer:lookup:skip_reverse_nsupdate') | default(false, true) %}
 
 {%- set dummy_address = '192.0.0.8' %}
 
@@ -55,7 +55,7 @@ RedHat:
       - name: dnspython
       - reload_modules: True
 
-    {%- if not skip_forward_nsupdate == true %}
+    {%- if not skip_forward_nsupdate %}
   Create DNS forward record:
     ddns.present:
       - data: {{ primary_ip }}
@@ -69,7 +69,7 @@ RedHat:
       - zone: {{ dns_domain }}
     {%- endif %}
 
-    {%- if not skip_reverse_nsupdate == true %}
+    {%- if not skip_reverse_nsupdate %}
   Create DNS reverse record:
     ddns.present:
       - data: {{ name }}.{{ dns_domain }}.
