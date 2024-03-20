@@ -19,6 +19,7 @@ jobs:
         salt_pillar_root:
           - ./tests/pillar/test-empty
           - ./tests/pillar/test-ddns
+          - ./tests/pillar/test-skip-ddns
     with:
       salt-os-version: ${{ matrix.os_version }}
       salt-state: ${{ matrix.salt_state }}
@@ -37,6 +38,7 @@ jobs:
         salt_pillar_root:
           - ./tests/pillar/test-empty
           - ./tests/pillar/test-ddns
+          - ./tests/pillar/test-skip-ddns
     with:
       salt-os-version: ${{ matrix.os_version }}
       salt-state: ${{ matrix.salt_state }}
