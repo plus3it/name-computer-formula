@@ -1,5 +1,2 @@
-audit
-openssh-server
-rsyslog
+iproute
 salt-minion
-firewalld
